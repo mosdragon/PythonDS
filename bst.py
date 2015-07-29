@@ -1,7 +1,7 @@
 from node import Node
 
-'''Binary Search Tree implementation. Values less than or equal to on the left,
-values greater than on the right'''
+'''Binary Search Tree implementation. Values less than on the left,
+values greater than on the right. No duplicate data entries allowed'''
 class Bst:
 
 	def __init__(self):
@@ -17,37 +17,50 @@ class Bst:
 	def add(self, data):
 
 		'''Helper method for adding recursively'''
-		def addNode(data, node):
+		def helper_add(data, node):
 			if node is None:
 				self.size += 1
 				return Node(data)
 			elif data > node.getdata():
-				node.setright(addNode(data, node.getright()))
+				node.setright(helper_add(data, node.getright()))
+				node.determineheight()
+				return node
+			elif data < node.getdata():
+				node.setleft(helper_add(data, node.getleft()))
+				node.determineheight()
 				return node
 			else:
-				node.setleft(addNode(data, node.getleft()))
 				return node
 
-		self.root = addNode(data, self.root)
+		self.root = helper_add(data, self.root)
 
 
 	def contains(self, data):
 
 		def helper_contains(data, node):
 			if node is None:
-				return false
+				return False
+			
 			elif data > node.getdata():
 				return helper_contains(data, node.getright())
-			else:
+			
+			elif data < node.getdata():
 				return helper_contains(data, node.getleft())
+			
+			elif data == node.getdata():
+				return True
+
+			else:
+				return False
+
 
 		return helper_contains(data, self.root)
 
 
 	def remove(self, data):
-		'''For nodes with two children, the predecessor will be used as the replacement'''
 
 		def two_children(data, parent, child):
+			'''For nodes with two children, the predecessor will be used as the replacement'''
 			curr = child.getleft()
 			prev = None
 			while curr.getright():
@@ -98,21 +111,25 @@ class Bst:
 		def helper_remove(data, parent, child):
 			if child is None:
 				return None
+			
 			elif data > child.getdata():
-				helper_remove(data, child, child.getright())
+				result = helper_remove(data, child, child.getright())
+				child.determineheight()
+				return result
+			
 			elif data < child.getdata():
-				helper_remove(data, child, child.getleft())
+				result = helper_remove(data, child, child.getleft())
+				child.determineheight()
+				return result
 
 			elif data == child.getdata():
 
-				match = child.getdata()
+				result = child.getdata()
 
 				# Now we know we must remove it. Check the number of children
 				num_children = 0
 				num_children += 1 if child.getleft() else 0
 				num_children += 1 if child.getright() else 0
-
-				print 'num_children : ' + str(num_children)
 
 				if num_children is 2:
 					two_children(data, parent, child)
@@ -124,7 +141,7 @@ class Bst:
 					no_child(data, parent, child)
 
 				self.size -= 1
-				return match
+				return result
 
 			else:
 				return None
@@ -132,8 +149,8 @@ class Bst:
 		return helper_remove(data, None, self.root)
 
 
-	def getroot(self):
-		return self.root
+	# def getroot(self):
+	# 	return self.root
 
 	def inorder(self):
 		result = []

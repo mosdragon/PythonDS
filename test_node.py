@@ -2,7 +2,7 @@ from node import Node
 import unittest
 
 
-class MyTest(unittest.TestCase):
+class NodeTester(unittest.TestCase):
     
     def test_init(self):
         startdata = 100
