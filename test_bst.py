@@ -6,10 +6,12 @@ import unittest
 
 # Data for root
 ROOT_DATA = 10
+
 # Data for left subtree
 LEFT_DATA = 5
 LL_DATA = 2
 LR_DATA = 8
+
 # Data for right subtree
 RIGHT_DATA = 20
 RL_DATA = 15
@@ -442,16 +444,75 @@ class BstTester(unittest.TestCase):
 		self.assertFalse(tree.contains(RR_DATA))
 
 	def test_inorder(self):
-		pass
+		tree = balanced_tree()
+		
+		inorder = tree.inorder()
+		actual_data = sorted([ROOT_DATA, LEFT_DATA, RIGHT_DATA,
+			LL_DATA, LR_DATA, RL_DATA, RR_DATA])
+		self.assertEquals(inorder, actual_data)
+
+		additional_data = [-10, 3, 7, 9, 12, 17, 22, 27]
+		for val in additional_data:
+			tree.add(val)
+			actual_data.append(val)
+
+		actual_data = sorted(actual_data)
+		inorder = tree.inorder()
+
+		self.assertEquals(inorder, actual_data)
 
 	def test_preorder(self):
-		pass
+		tree = balanced_tree()
+		
+		preorder = tree.preorder()
+
+		actual_data = [ROOT_DATA, LEFT_DATA, LL_DATA, LR_DATA, RIGHT_DATA, RL_DATA, RR_DATA]
+		self.assertEquals(preorder, actual_data)
+
+		additional_data = [-10, 3, 7, 9, 12, 17, 22, 27]
+		for x in additional_data:
+			tree.add(x)
+
+		actual_data = [ROOT_DATA, LEFT_DATA, LL_DATA] + additional_data[0 : 2] + [LR_DATA] + additional_data[2 : 4] + [RIGHT_DATA, RL_DATA] + additional_data[4 : 6] + [RR_DATA] + additional_data[6 : 8]
+
+		preorder = tree.preorder()
+
+		self.assertEquals(preorder, actual_data)
 
 	def test_postorder(self):
-		pass
+		tree = balanced_tree()
+		
+		postorder = tree.postorder()
+
+		actual_data = [LL_DATA, LR_DATA, LEFT_DATA, RL_DATA, RR_DATA, RIGHT_DATA, ROOT_DATA]
+		self.assertEquals(postorder, actual_data)
+
+		additional_data = [-10, 3, 7, 9, 12, 17, 22, 27]
+		for x in additional_data:
+			tree.add(x)
+
+		actual_data = additional_data[0 : 2] + [LL_DATA] + additional_data[2 : 4] + [LR_DATA, LEFT_DATA] + additional_data[4 : 6] + [RL_DATA] + additional_data[6 : 8] + [RR_DATA, RIGHT_DATA, ROOT_DATA]
+
+		postorder = tree.postorder()
+
+		self.assertEquals(postorder, actual_data)
 
 	def test_levelorder(self):
-		pass
+
+		tree = balanced_tree()
+		
+		levelorder = tree.levelorder()
+		actual_data = [ROOT_DATA, LEFT_DATA, RIGHT_DATA, LL_DATA, LR_DATA, RL_DATA, RR_DATA]
+		self.assertEquals(levelorder, actual_data)
+
+		additional_data = [-10, 3, 7, 9, 12, 17, 22, 27]
+		for x in additional_data:
+			tree.add(x)
+			actual_data.append(x)
+
+		levelorder = tree.levelorder()
+
+		self.assertEquals(levelorder, actual_data)		
 
 unittest.main()
 
