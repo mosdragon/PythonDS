@@ -1,7 +1,8 @@
 from node import Node
 
 '''Binary Search Tree implementation. Values less than on the left,
-values greater than on the right. No duplicate data entries allowed'''
+values greater than on the right. No duplicate data entries allowed.
+For removal, predecessor is used when there are two child nodes.'''
 class Bst:
 
 	def __init__(self):
@@ -67,12 +68,15 @@ class Bst:
 				prev = curr
 				curr = curr.getright()
 
-			if (prev):
-				prev.setright(None)
-
 			replacement = curr
 			replacement.setright(child.getright())
-			replacement.setleft(child.getleft())
+
+			if prev:
+				prev.setright(None)
+				# Prevents left child from setting itself as its left
+				# This will only be called by a rightward descendant of
+				# child.getleft()
+				replacement.setleft(child.getleft())
 
 			if parent:
 				if data > parent.getdata():
@@ -148,9 +152,6 @@ class Bst:
 
 		return helper_remove(data, None, self.root)
 
-
-	# def getroot(self):
-	# 	return self.root
 
 	def inorder(self):
 		result = []
