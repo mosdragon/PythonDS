@@ -119,6 +119,3 @@ class NodeTester(unittest.TestCase):
         right_child = left_child
         duplicate.setright(right_child)
         self.assertEqual(original, duplicate)
-
-
-unittest.main() 

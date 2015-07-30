@@ -1,9 +1,9 @@
 from node import Node
 
-'''Binary Search Tree implementation. Values less than on the left,
-values greater than on the right. No duplicate data entries allowed.
-For removal, predecessor is used when there are two child nodes.'''
 class Bst:
+	'''Binary Search Tree implementation. Values less than on the left,
+	values greater than on the right. No duplicate data entries allowed.
+	For removal, predecessor is used when there are two child nodes.'''
 
 	def __init__(self):
 		self.root = None
@@ -16,8 +16,8 @@ class Bst:
 		return (self.size is 0)
 
 	def add(self, data):
-
 		'''Helper method for adding recursively'''
+		
 		def helper_add(data, node):
 			if node is None:
 				self.size += 1

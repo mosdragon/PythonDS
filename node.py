@@ -1,6 +1,6 @@
 
 class Node:
-    '''This is a node class that can hold a left child and a right child'''
+    """This is a node class that can hold a left child and a right child"""
 
     def __init__(self, data):
         self.left = None
@@ -40,7 +40,7 @@ class Node:
         return self.data
 
     def __eq__(self, other):
-        '''Equality of nodes only depends on the data and the height of the nodes'''
+        """Equality of nodes only depends on the data and the height of the nodes"""
 
         if isinstance(other, self.__class__):
             match = (self.getdata() == other.getdata()
