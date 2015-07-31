@@ -58,6 +58,7 @@ class Avl(Bst):
                 # This will only be called by a rightward descendant of
                 # child.getleft()
                 replacement.setleft(child.getleft())
+                # prev = self.handle_rotations(prev)
 
             if parent:
                 if data > parent.getdata():
@@ -66,8 +67,13 @@ class Avl(Bst):
                 else:
                     parent.setleft(replacement)
 
+                # replacement = self.handle_rotations(replacement)
+                # parent = self.handle_rotations(parent)
+
             elif child is self.root:
                 self.root = replacement
+
+            return parent
 
         def single_child(data, parent, child):
             replacement = child.getleft() if child.getleft() else child.getright()
@@ -77,18 +83,30 @@ class Avl(Bst):
                 else:
                     parent.setleft(replacement)
 
+                # self.handle_rotations(parent)
+
             elif child is self.root:
                 self.root = replacement
 
+            return parent
+
         def no_child(data, parent, child):
+            balanced_parent = None
             if parent is not None:
                 if parent.getleft() is child:
                     parent.setleft(None)
                 else:
                     parent.setright(None)
 
-            elif child is self.root:
+                balanced_parent = self.handle_rotations(parent)
+
+            if child is self.root:
                 self.root = None
+
+            elif parent is self.root:
+                self.root = balanced_parent
+
+            # return parent
 
         def helper_remove(data, parent, child):
             if child is None:
@@ -97,11 +115,13 @@ class Avl(Bst):
             elif data > child.getdata():
                 result = helper_remove(data, child, child.getright())
                 child.determineheight()
+                child = self.handle_rotations(child)
                 return result
 
             elif data < child.getdata():
                 result = helper_remove(data, child, child.getleft())
                 child.determineheight()
+                child = self.handle_rotations(child)
                 return result
 
             elif data == child.getdata():
